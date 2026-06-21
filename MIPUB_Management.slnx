@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="MIPUB.BLL/MIPUB.BLL.csproj" />
+  <Project Path="MIPUB.ConsoleApp/MIPUB.ConsoleApp.csproj" />
+  <Project Path="MIPUB.DAL/MIPUB.DAL.csproj" />
+  <Project Path="MIPUB.Models/MIPUB.Models.csproj" />
+  <Project Path="MIPUB.UI/MIPUB.UI.csproj" />
+</Solution>
