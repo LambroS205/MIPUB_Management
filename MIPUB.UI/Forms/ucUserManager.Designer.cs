@@ -17,116 +17,239 @@
 
         private void InitializeComponent()
         {
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.dgvUsers = new System.Windows.Forms.DataGridView();
-            this.ColId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColUsername = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColFullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColRoleName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColRoleId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-
-            this.gbAddUser = new System.Windows.Forms.GroupBox();
-            this.lblUsername = new System.Windows.Forms.Label();
-            this.txtUsername = new System.Windows.Forms.TextBox();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.lblFullName = new System.Windows.Forms.Label();
-            this.txtFullName = new System.Windows.Forms.TextBox();
-            this.lblRole = new System.Windows.Forms.Label();
-            this.cbRole = new System.Windows.Forms.ComboBox();
-
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnUpdate = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
-            this.gbAddUser.SuspendLayout();
-            this.SuspendLayout();
-
+            lblTitle = new Label();
+            dgvUsers = new DataGridView();
+            ColId = new DataGridViewTextBoxColumn();
+            ColUsername = new DataGridViewTextBoxColumn();
+            ColFullName = new DataGridViewTextBoxColumn();
+            ColRoleName = new DataGridViewTextBoxColumn();
+            ColRoleId = new DataGridViewTextBoxColumn();
+            gbAddUser = new GroupBox();
+            btnClear = new Button();
+            btnDelete = new Button();
+            btnUpdate = new Button();
+            btnAdd = new Button();
+            lblRole = new Label();
+            cbRole = new ComboBox();
+            lblFullName = new Label();
+            txtFullName = new TextBox();
+            lblPassword = new Label();
+            txtPassword = new TextBox();
+            lblUsername = new Label();
+            txtUsername = new TextBox();
+            ((System.ComponentModel.ISupportInitialize)dgvUsers).BeginInit();
+            gbAddUser.SuspendLayout();
+            SuspendLayout();
+            // 
             // lblTitle
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.Location = new System.Drawing.Point(20, 20);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(300, 37);
-            this.lblTitle.Text = "QUẢN LÝ TÀI KHOẢN";
-
+            // 
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblTitle.Location = new Point(20, 20);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(288, 37);
+            lblTitle.TabIndex = 2;
+            lblTitle.Text = "QUẢN LÝ TÀI KHOẢN";
+            // 
             // dgvUsers
-            this.dgvUsers.AllowUserToAddRows = false;
-            this.dgvUsers.AllowUserToDeleteRows = false;
-            this.dgvUsers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvUsers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvUsers.BackgroundColor = System.Drawing.Color.White;
-            this.dgvUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvUsers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColId, this.ColUsername, this.ColFullName, this.ColRoleName, this.ColRoleId});
-            this.dgvUsers.Location = new System.Drawing.Point(27, 80);
-            this.dgvUsers.Name = "dgvUsers";
-            this.dgvUsers.ReadOnly = true;
-            this.dgvUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUsers.Size = new System.Drawing.Size(780, 340);
-            this.dgvUsers.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsers_CellClick);
-
-            // Columns
-            this.ColId.Name = "ColId"; this.ColId.Visible = false;
-            this.ColUsername.HeaderText = "Tên đăng nhập"; this.ColUsername.Name = "ColUsername";
-            this.ColFullName.HeaderText = "Họ và Tên"; this.ColFullName.Name = "ColFullName";
-            this.ColRoleName.HeaderText = "Vai trò (Role)"; this.ColRoleName.Name = "ColRoleName";
-            this.ColRoleId.Name = "ColRoleId"; this.ColRoleId.Visible = false;
-
+            // 
+            dgvUsers.AllowUserToAddRows = false;
+            dgvUsers.AllowUserToDeleteRows = false;
+            dgvUsers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvUsers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvUsers.BackgroundColor = Color.White;
+            dgvUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvUsers.Columns.AddRange(new DataGridViewColumn[] { ColId, ColUsername, ColFullName, ColRoleName, ColRoleId });
+            dgvUsers.Location = new Point(27, 80);
+            dgvUsers.Name = "dgvUsers";
+            dgvUsers.ReadOnly = true;
+            dgvUsers.RowHeadersWidth = 51;
+            dgvUsers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvUsers.Size = new Size(780, 340);
+            dgvUsers.TabIndex = 1;
+            dgvUsers.CellClick += dgvUsers_CellClick;
+            // 
+            // ColId
+            // 
+            ColId.MinimumWidth = 6;
+            ColId.Name = "ColId";
+            ColId.ReadOnly = true;
+            ColId.Visible = false;
+            // 
+            // ColUsername
+            // 
+            ColUsername.HeaderText = "Tên đăng nhập";
+            ColUsername.MinimumWidth = 6;
+            ColUsername.Name = "ColUsername";
+            ColUsername.ReadOnly = true;
+            // 
+            // ColFullName
+            // 
+            ColFullName.HeaderText = "Họ và Tên";
+            ColFullName.MinimumWidth = 6;
+            ColFullName.Name = "ColFullName";
+            ColFullName.ReadOnly = true;
+            // 
+            // ColRoleName
+            // 
+            ColRoleName.HeaderText = "Vai trò (Role)";
+            ColRoleName.MinimumWidth = 6;
+            ColRoleName.Name = "ColRoleName";
+            ColRoleName.ReadOnly = true;
+            // 
+            // ColRoleId
+            // 
+            ColRoleId.MinimumWidth = 6;
+            ColRoleId.Name = "ColRoleId";
+            ColRoleId.ReadOnly = true;
+            ColRoleId.Visible = false;
+            // 
             // gbAddUser
-            this.gbAddUser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbAddUser.Controls.Add(this.btnClear);
-            this.gbAddUser.Controls.Add(this.btnDelete);
-            this.gbAddUser.Controls.Add(this.btnUpdate);
-            this.gbAddUser.Controls.Add(this.btnAdd);
-            this.gbAddUser.Controls.Add(this.lblRole);
-            this.gbAddUser.Controls.Add(this.cbRole);
-            this.gbAddUser.Controls.Add(this.lblFullName);
-            this.gbAddUser.Controls.Add(this.txtFullName);
-            this.gbAddUser.Controls.Add(this.lblPassword);
-            this.gbAddUser.Controls.Add(this.txtPassword);
-            this.gbAddUser.Controls.Add(this.lblUsername);
-            this.gbAddUser.Controls.Add(this.txtUsername);
-            this.gbAddUser.Location = new System.Drawing.Point(27, 440);
-            this.gbAddUser.Name = "gbAddUser";
-            this.gbAddUser.Size = new System.Drawing.Size(780, 180);
-            this.gbAddUser.Text = "Thông tin chi tiết";
-
-            // Inputs layout
-            this.lblUsername.Location = new System.Drawing.Point(30, 40); this.lblUsername.Text = "Username:";
-            this.txtUsername.Location = new System.Drawing.Point(120, 37); this.txtUsername.Size = new System.Drawing.Size(200, 27);
-
-            this.lblPassword.Location = new System.Drawing.Point(380, 40); this.lblPassword.Text = "Mật khẩu:";
-            this.txtPassword.Location = new System.Drawing.Point(460, 37); this.txtPassword.Size = new System.Drawing.Size(200, 27); this.txtPassword.PasswordChar = '●';
-
-            this.lblFullName.Location = new System.Drawing.Point(30, 80); this.lblFullName.Text = "Họ tên:";
-            this.txtFullName.Location = new System.Drawing.Point(120, 77); this.txtFullName.Size = new System.Drawing.Size(200, 27);
-
-            this.lblRole.Location = new System.Drawing.Point(380, 80); this.lblRole.Text = "Vai trò:";
-            this.cbRole.Location = new System.Drawing.Point(460, 77); this.cbRole.Size = new System.Drawing.Size(200, 28); this.cbRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-
-            // Buttons
-            this.btnAdd.Location = new System.Drawing.Point(120, 130); this.btnAdd.Size = new System.Drawing.Size(100, 35); this.btnAdd.Text = "Thêm"; this.btnAdd.BackColor = System.Drawing.Color.MediumSeaGreen; this.btnAdd.ForeColor = System.Drawing.Color.White; this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            this.btnUpdate.Location = new System.Drawing.Point(240, 130); this.btnUpdate.Size = new System.Drawing.Size(100, 35); this.btnUpdate.Text = "Cập nhật"; this.btnUpdate.BackColor = System.Drawing.Color.Orange; this.btnUpdate.ForeColor = System.Drawing.Color.White; this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
-            this.btnDelete.Location = new System.Drawing.Point(360, 130); this.btnDelete.Size = new System.Drawing.Size(100, 35); this.btnDelete.Text = "Xóa"; this.btnDelete.BackColor = System.Drawing.Color.Crimson; this.btnDelete.ForeColor = System.Drawing.Color.White; this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            this.btnClear.Location = new System.Drawing.Point(480, 130); this.btnClear.Size = new System.Drawing.Size(100, 35); this.btnClear.Text = "Làm mới"; this.btnClear.BackColor = System.Drawing.Color.Gray; this.btnClear.ForeColor = System.Drawing.Color.White; this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-
+            // 
+            gbAddUser.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            gbAddUser.Controls.Add(cbRole);
+            gbAddUser.Controls.Add(txtPassword);
+            gbAddUser.Controls.Add(txtFullName);
+            gbAddUser.Controls.Add(txtUsername);
+            gbAddUser.Controls.Add(btnClear);
+            gbAddUser.Controls.Add(btnDelete);
+            gbAddUser.Controls.Add(btnUpdate);
+            gbAddUser.Controls.Add(btnAdd);
+            gbAddUser.Controls.Add(lblRole);
+            gbAddUser.Controls.Add(lblFullName);
+            gbAddUser.Controls.Add(lblPassword);
+            gbAddUser.Controls.Add(lblUsername);
+            gbAddUser.Location = new Point(27, 440);
+            gbAddUser.Name = "gbAddUser";
+            gbAddUser.Size = new Size(780, 180);
+            gbAddUser.TabIndex = 0;
+            gbAddUser.TabStop = false;
+            gbAddUser.Text = "Thông tin chi tiết";
+            // 
+            // btnClear
+            // 
+            btnClear.BackColor = Color.Gray;
+            btnClear.ForeColor = Color.White;
+            btnClear.Location = new Point(480, 130);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(100, 35);
+            btnClear.TabIndex = 0;
+            btnClear.Text = "Làm mới";
+            btnClear.UseVisualStyleBackColor = false;
+            btnClear.Click += btnClear_Click;
+            // 
+            // btnDelete
+            // 
+            btnDelete.BackColor = Color.Crimson;
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(360, 130);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(100, 35);
+            btnDelete.TabIndex = 1;
+            btnDelete.Text = "Xóa";
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
+            // 
+            // btnUpdate
+            // 
+            btnUpdate.BackColor = Color.Orange;
+            btnUpdate.ForeColor = Color.White;
+            btnUpdate.Location = new Point(240, 130);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(100, 35);
+            btnUpdate.TabIndex = 2;
+            btnUpdate.Text = "Cập nhật";
+            btnUpdate.UseVisualStyleBackColor = false;
+            btnUpdate.Click += btnUpdate_Click;
+            // 
+            // btnAdd
+            // 
+            btnAdd.BackColor = Color.MediumSeaGreen;
+            btnAdd.ForeColor = Color.White;
+            btnAdd.Location = new Point(120, 130);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(100, 35);
+            btnAdd.TabIndex = 3;
+            btnAdd.Text = "Thêm";
+            btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Click += btnAdd_Click;
+            // 
+            // lblRole
+            // 
+            lblRole.Location = new Point(380, 80);
+            lblRole.Name = "lblRole";
+            lblRole.Size = new Size(100, 23);
+            lblRole.TabIndex = 4;
+            lblRole.Text = "Vai trò:";
+            // 
+            // cbRole
+            // 
+            cbRole.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbRole.Location = new Point(460, 77);
+            cbRole.Name = "cbRole";
+            cbRole.Size = new Size(200, 28);
+            cbRole.TabIndex = 5;
+            // 
+            // lblFullName
+            // 
+            lblFullName.Location = new Point(30, 80);
+            lblFullName.Name = "lblFullName";
+            lblFullName.Size = new Size(100, 23);
+            lblFullName.TabIndex = 6;
+            lblFullName.Text = "Họ tên:";
+            // 
+            // txtFullName
+            // 
+            txtFullName.Location = new Point(120, 77);
+            txtFullName.Name = "txtFullName";
+            txtFullName.Size = new Size(200, 27);
+            txtFullName.TabIndex = 7;
+            // 
+            // lblPassword
+            // 
+            lblPassword.Location = new Point(380, 40);
+            lblPassword.Name = "lblPassword";
+            lblPassword.Size = new Size(100, 23);
+            lblPassword.TabIndex = 8;
+            lblPassword.Text = "Mật khẩu:";
+            // 
+            // txtPassword
+            // 
+            txtPassword.Location = new Point(460, 37);
+            txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '●';
+            txtPassword.Size = new Size(200, 27);
+            txtPassword.TabIndex = 9;
+            // 
+            // lblUsername
+            // 
+            lblUsername.Location = new Point(30, 40);
+            lblUsername.Name = "lblUsername";
+            lblUsername.Size = new Size(100, 23);
+            lblUsername.TabIndex = 10;
+            lblUsername.Text = "Username:";
+            // 
+            // txtUsername
+            // 
+            txtUsername.Location = new Point(120, 37);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(200, 27);
+            txtUsername.TabIndex = 11;
+            // 
             // ucUserManager
-            this.Controls.Add(this.gbAddUser);
-            this.Controls.Add(this.dgvUsers);
-            this.Controls.Add(this.lblTitle);
-            this.Name = "ucUserManager";
-            this.Size = new System.Drawing.Size(832, 653);
-            this.BackColor = System.Drawing.Color.White;
-            this.Load += new System.EventHandler(this.ucUserManager_Load);
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).EndInit();
-            this.gbAddUser.ResumeLayout(false);
-            this.gbAddUser.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            // 
+            BackColor = Color.White;
+            Controls.Add(gbAddUser);
+            Controls.Add(dgvUsers);
+            Controls.Add(lblTitle);
+            Name = "ucUserManager";
+            Size = new Size(832, 653);
+            Load += ucUserManager_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvUsers).EndInit();
+            gbAddUser.ResumeLayout(false);
+            gbAddUser.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
