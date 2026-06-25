@@ -14,18 +14,15 @@ namespace MIPUB.UI.Forms
             InitializeComponent();
             _currentUser = loggedInUser;
 
-            // Hiển thị thông tin người dùng
             lblUserInfo.Text = $"Xin chào, {_currentUser.HoTen}\nVai trò: {_currentUser.Role?.RoleName}";
 
-            // Phân quyền cơ bản (RBAC)
-            if (_currentUser.RoleId != 1) // 1 là Admin, 2 là Nhân viên
+            // Phân quyền (RBAC) - Chỉ Admin mới thấy Quản lý Tài khoản
+            if (_currentUser.RoleId != 1)
             {
-                // Nếu là nhân viên, có thể ẩn bớt một số chức năng đặc quyền nếu cần
-                // VD: btnCaiDat.Visible = false;
+                btnQuanLyTaiKhoan.Visible = false;
             }
         }
 
-        // Helper để load UserControl vào Panel chính
         public void LoadControl(UserControl uc)
         {
             pnlMain.Controls.Clear();
@@ -33,13 +30,17 @@ namespace MIPUB.UI.Forms
             pnlMain.Controls.Add(uc);
         }
 
+        private void ResetButtonColors()
+        {
+            btnQuanLySach.BackColor = Color.FromArgb(240, 244, 248);
+            btnThongKe.BackColor = Color.FromArgb(240, 244, 248);
+            btnQuanLyTaiKhoan.BackColor = Color.FromArgb(240, 244, 248);
+        }
+
         private void btnQuanLySach_Click(object sender, EventArgs e)
         {
-            // Reset màu các nút
             ResetButtonColors();
-            btnQuanLySach.BackColor = Color.FromArgb(220, 235, 250); // Highlight
-
-            // Đã bỏ comment để Load form
+            btnQuanLySach.BackColor = Color.FromArgb(220, 235, 250);
             LoadControl(new ucBookManager());
         }
 
@@ -47,24 +48,21 @@ namespace MIPUB.UI.Forms
         {
             ResetButtonColors();
             btnThongKe.BackColor = Color.FromArgb(220, 235, 250);
-
-            // Đã bỏ comment để Load form
             LoadControl(new ucStatistics());
         }
 
-        private void ResetButtonColors()
+        private void btnQuanLyTaiKhoan_Click(object sender, EventArgs e)
         {
-            btnQuanLySach.BackColor = Color.FromArgb(240, 244, 248);
-            btnThongKe.BackColor = Color.FromArgb(240, 244, 248);
+            ResetButtonColors();
+            btnQuanLyTaiKhoan.BackColor = Color.FromArgb(220, 235, 250);
+            LoadControl(new ucUserManager(_currentUser.Id)); // Truyền ID để chống tự xóa chính mình
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn đăng xuất?", "Đăng xuất", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
+            if (MessageBox.Show("Bạn có chắc chắn muốn đăng xuất?", "Đăng xuất", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                LoginForm login = new LoginForm();
-                login.Show();
+                new LoginForm().Show();
                 this.Hide();
             }
         }
