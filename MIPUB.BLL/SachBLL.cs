@@ -6,7 +6,6 @@ using MIPUB.Models.Interfaces;
 
 namespace MIPUB.BLL
 {
-    // BLL triển khai Interface (Abstraction) đã thiết kế ở Models
     public class SachBLL : IQuanLySach
     {
         private SachDAL _sachDAL = new SachDAL();
@@ -18,31 +17,26 @@ namespace MIPUB.BLL
 
         public void ThemSach(Sach sach)
         {
-            // Logic nghiệp vụ: Kiểm tra mã sách đã tồn tại chưa
             Sach s = _sachDAL.TimKiemTheoMa(sach.MaSach);
-            if (s != null)
-            {
-                throw new Exception("Mã sách này đã tồn tại trong hệ thống. Vui lòng nhập mã khác.");
-            }
+            if (s != null) throw new Exception("Mã sách này đã tồn tại trong hệ thống. Vui lòng nhập mã khác.");
 
-            // Validate sơ bộ năm xuất bản
-            if (sach.NamXuatBan > DateTime.Now.Year)
-            {
-                throw new Exception("Năm xuất bản không hợp lệ.");
-            }
+            if (sach.NamXuatBan > DateTime.Now.Year) throw new Exception("Năm xuất bản không hợp lệ.");
 
             _sachDAL.ThemSach(sach);
         }
 
+        // --- ĐÃ IMPLEMENT CHỨC NĂNG CẬP NHẬT ---
         public void CapNhatSach(Sach sach)
         {
-            // Bài toán yêu cầu mức cơ bản, nếu cần có thể triển khai DAL update
-            throw new NotImplementedException("Chức năng cập nhật đang được bảo trì.");
+            if (sach.NamXuatBan > DateTime.Now.Year) throw new Exception("Năm xuất bản không hợp lệ.");
+            _sachDAL.CapNhatSach(sach);
         }
 
+        // --- ĐÃ IMPLEMENT CHỨC NĂNG XÓA ---
         public void XoaSach(int id)
         {
-            throw new NotImplementedException("Chức năng xóa đang được bảo trì.");
+            if (id <= 0) throw new Exception("ID sách không hợp lệ.");
+            _sachDAL.XoaSach(id);
         }
 
         public Sach TimKiemTheoMa(string maSach)

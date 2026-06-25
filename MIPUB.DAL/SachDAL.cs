@@ -7,7 +7,7 @@ namespace MIPUB.DAL
 {
     public class SachDAL
     {
-        // Helper map SqlDataReader sang đối tượng Sach (Kế thừa / Đa hình)
+        // Helper map SqlDataReader sang đối tượng Sach
         private Sach MapReaderToSach(SqlDataReader reader)
         {
             Sach sach;
@@ -30,7 +30,6 @@ namespace MIPUB.DAL
                 };
             }
 
-            // Map thuộc tính chung
             sach.Id = Convert.ToInt32(reader["Id"]);
             sach.MaSach = reader["MaSach"].ToString();
             sach.TieuDe = reader["TieuDe"].ToString();
@@ -38,16 +37,10 @@ namespace MIPUB.DAL
             sach.TacGiaId = Convert.ToInt32(reader["TacGiaId"]);
             sach.NhaXuatBan = reader["NhaXuatBan"].ToString();
 
-            // Lấy thêm thông tin Tác giả nếu JOIN
             if (HasColumn(reader, "HoTenTacGia") && reader["HoTenTacGia"] != DBNull.Value)
             {
-                sach.TacGia = new TacGia
-                {
-                    Id = sach.TacGiaId,
-                    HoTen = reader["HoTenTacGia"].ToString()
-                };
+                sach.TacGia = new TacGia { Id = sach.TacGiaId, HoTen = reader["HoTenTacGia"].ToString() };
             }
-
             return sach;
         }
 
@@ -64,20 +57,14 @@ namespace MIPUB.DAL
         public List<Sach> LayTatCaSach()
         {
             List<Sach> dsSach = new List<Sach>();
-            string query = @"SELECT s.*, t.HoTen as HoTenTacGia 
-                             FROM Sach s 
-                             INNER JOIN TacGia t ON s.TacGiaId = t.Id";
-
+            string query = @"SELECT s.*, t.HoTen as HoTenTacGia FROM Sach s INNER JOIN TacGia t ON s.TacGiaId = t.Id";
             using (SqlConnection conn = DatabaseHelper.GetConnection())
             {
                 SqlCommand cmd = new SqlCommand(query, conn);
                 conn.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
-                    {
-                        dsSach.Add(MapReaderToSach(reader));
-                    }
+                    while (reader.Read()) dsSach.Add(MapReaderToSach(reader));
                 }
             }
             return dsSach;
@@ -94,8 +81,7 @@ namespace MIPUB.DAL
                 conn.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    if (reader.Read())
-                        sach = MapReaderToSach(reader);
+                    if (reader.Read()) sach = MapReaderToSach(reader);
                 }
             }
             return sach;
@@ -109,40 +95,74 @@ namespace MIPUB.DAL
             using (SqlConnection conn = DatabaseHelper.GetConnection())
             {
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaSach", sach.MaSach);
-                cmd.Parameters.AddWithValue("@TieuDe", sach.TieuDe);
-                cmd.Parameters.AddWithValue("@NamXuatBan", sach.NamXuatBan);
-                cmd.Parameters.AddWithValue("@TacGiaId", sach.TacGiaId);
-                cmd.Parameters.AddWithValue("@NhaXuatBan", sach.NhaXuatBan);
-                cmd.Parameters.AddWithValue("@LoaiSach", sach.LoaiSach);
-
-                if (sach is SachIn sIn)
-                {
-                    cmd.Parameters.AddWithValue("@SoTrang", sIn.SoTrang);
-                    cmd.Parameters.AddWithValue("@KichThuoc", sIn.KichThuoc ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@DungLuongMB", DBNull.Value);
-                    cmd.Parameters.AddWithValue("@DinhDang", DBNull.Value);
-                }
-                else if (sach is SachDienTu sEbook)
-                {
-                    cmd.Parameters.AddWithValue("@SoTrang", DBNull.Value);
-                    cmd.Parameters.AddWithValue("@KichThuoc", DBNull.Value);
-                    cmd.Parameters.AddWithValue("@DungLuongMB", sEbook.DungLuongMB);
-                    cmd.Parameters.AddWithValue("@DinhDang", sEbook.DinhDang ?? (object)DBNull.Value);
-                }
-
+                SetSachParameters(cmd, sach);
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
         }
 
+        // --- CÁC HÀM MỚI ĐƯỢC BỔ SUNG ĐỂ HOÀN THIỆN CRUD ---
+
+        public void CapNhatSach(Sach sach)
+        {
+            string query = @"UPDATE Sach 
+                             SET TieuDe = @TieuDe, NamXuatBan = @NamXuatBan, TacGiaId = @TacGiaId, 
+                                 NhaXuatBan = @NhaXuatBan, LoaiSach = @LoaiSach, SoTrang = @SoTrang, 
+                                 KichThuoc = @KichThuoc, DungLuongMB = @DungLuongMB, DinhDang = @DinhDang
+                             WHERE Id = @Id";
+
+            using (SqlConnection conn = DatabaseHelper.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Id", sach.Id);
+                SetSachParameters(cmd, sach); // Tái sử dụng hàm set params
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void XoaSach(int id)
+        {
+            string query = "DELETE FROM Sach WHERE Id = @Id";
+            using (SqlConnection conn = DatabaseHelper.GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Id", id);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        private void SetSachParameters(SqlCommand cmd, Sach sach)
+        {
+            cmd.Parameters.AddWithValue("@MaSach", sach.MaSach);
+            cmd.Parameters.AddWithValue("@TieuDe", sach.TieuDe);
+            cmd.Parameters.AddWithValue("@NamXuatBan", sach.NamXuatBan);
+            cmd.Parameters.AddWithValue("@TacGiaId", sach.TacGiaId);
+            cmd.Parameters.AddWithValue("@NhaXuatBan", sach.NhaXuatBan);
+            cmd.Parameters.AddWithValue("@LoaiSach", sach.LoaiSach);
+
+            if (sach is SachIn sIn)
+            {
+                cmd.Parameters.AddWithValue("@SoTrang", sIn.SoTrang);
+                cmd.Parameters.AddWithValue("@KichThuoc", sIn.KichThuoc ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@DungLuongMB", DBNull.Value);
+                cmd.Parameters.AddWithValue("@DinhDang", DBNull.Value);
+            }
+            else if (sach is SachDienTu sEbook)
+            {
+                cmd.Parameters.AddWithValue("@SoTrang", DBNull.Value);
+                cmd.Parameters.AddWithValue("@KichThuoc", DBNull.Value);
+                cmd.Parameters.AddWithValue("@DungLuongMB", sEbook.DungLuongMB);
+                cmd.Parameters.AddWithValue("@DinhDang", sEbook.DinhDang ?? (object)DBNull.Value);
+            }
+        }
+
+        // Các hàm tìm kiếm & thống kê giữ nguyên
         public List<Sach> TimKiemSachtheoTieuDe(string tuKhoa)
         {
             List<Sach> dsSach = new List<Sach>();
-            string query = @"SELECT s.*, t.HoTen as HoTenTacGia 
-                             FROM Sach s INNER JOIN TacGia t ON s.TacGiaId = t.Id
-                             WHERE s.TieuDe LIKE @TuKhoa";
-
+            string query = @"SELECT s.*, t.HoTen as HoTenTacGia FROM Sach s INNER JOIN TacGia t ON s.TacGiaId = t.Id WHERE s.TieuDe LIKE @TuKhoa";
             using (SqlConnection conn = DatabaseHelper.GetConnection())
             {
                 SqlCommand cmd = new SqlCommand(query, conn);
